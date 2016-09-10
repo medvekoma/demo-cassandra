@@ -109,7 +109,48 @@ SELECT * FROM nobel_laureates WHERE borncountrycode='RU' AND category='physics';
 
 SELECT * FROM nobel_laureates WHERE borncountrycode='RU' AND category='physics' ALLOW FILTERING;
 ```
+### Static fields
+```sql
+CREATE TABLE Bill_Static
+(
+	BillId int,
+	Seller text static,
+	Buyer text static,
+	ItemId int,
+	ItemName text,
+	ItemPrice decimal,
+	PRIMARY KEY (BillId, ItemId)
+);
 
+INSERT INTO Bill_Static 
+(
+	billid, Seller, Buyer, 
+	itemid, ItemName, ItemPrice
+) 
+VALUES 
+( 
+	1, 'Seller', 'Buyer', 
+	1001, 'iPad 32GB', 1299.00
+);
+
+INSERT INTO Bill_Static 
+(
+	billid, 
+	itemid, ItemName, ItemPrice
+) 
+VALUES 
+( 
+	1, 
+	1015, 'Headset XDF', 79.90
+);
+
+SELECT * FROM Bill_Static;
+```
+Check internal representation
+```bash
+cassandra-cli
+list Bill_Static;
+```
 ### Helpers
 ```bash
 curl http://medvekoma.net/reveal/cassandra/NobelLaureatesLimited.csv > NobelLaureatesLimited.csv
