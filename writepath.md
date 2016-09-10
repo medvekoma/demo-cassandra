@@ -1,6 +1,6 @@
 # Cassandra write path by example
 
-## Create test table
+## Create test table with initial data
 ```sql
 CREATE KEYSPACE demo WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
 USE demo;
@@ -14,8 +14,9 @@ CREATE TABLE meetup
 INSERT INTO meetup (id, presenter, topic) VALUES ( 1, 'Ada Lovelace', 'Storing the Internet on a Raspberry Pi');
 SELECT * FROM meetup;
 ```
-## Check the data files on the node (sstable)
 
+## Check the data files on the node (sstable)
+```bash
 # folder for the sstables
 cd /var/lib/cassandra/data/demo/meetup-<GUID>/
 ls -la
@@ -28,6 +29,7 @@ nodetool flush
 java -jar /demo/sstable-tools.jar toJson ma-1-big-Data.db
 ```
 
+## Update data
 ```sql
 # enter CQL shell to modify the data
 cqlsh
