@@ -1,5 +1,12 @@
 - NoSQL
+  - What is it?
+    - Partitioning (horizontal scalability)
+    - Flexible schema
+  - Different types
+  - Eventually Big Table introduction ? (Covered in HBase)
 - Internal Data Model
+  - Map of maps
+  - Wide rows
 - Architecture
   - Partitioning
   - Replication
@@ -14,12 +21,15 @@
   - Static Columns
   - Other limitations
 - Data Modeling
+  - Design by Query
   - Denormalization
     - 1 to many relationsips
   - Secondary Indexes
   - Data duplication
   - Modeling techniques
 - Conclusions
+  - Recommended for
+  - Not Recommended when
 - Hadoop Ecosystem
   - Not part of Hadoop
   - Cassandra FS ? (CFS is part of DSE)
