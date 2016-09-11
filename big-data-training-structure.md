@@ -1,0 +1,27 @@
+- NoSQL
+- Internal Data Model
+- Architecture
+  - Partitioning
+  - Replication
+  - Consistency
+  - Durability and Performance
+- CQL
+  - Data Types (collections, UDF)
+  - Filtering
+  - Insert and Update
+  - Partition Key + Clustering Key
+  - Ordering
+  - Static Columns
+  - Other limitations
+- Data Modeling
+  - Denormalization
+    - 1 to many relationsips
+  - Secondary Indexes
+  - Data duplication
+  - Modeling techniques
+- Conclusions
+- Hadoop Ecosystem
+  - Not part of Hadoop
+  - Cassandra FS ? (CFS is part of DSE)
+  - InputFormat, OutputFormat
+  - Cassandra and Spark
