@@ -33,20 +33,20 @@ list Contacts;
 ### User defined types
 
 ```sql
-CREATE TYPE Item 
-(Id int, Name text, Price decimal);
+CREATE TYPE item 
+(id int, name text, price decimal);
 
-CREATE TABLE Invoice 
-(Id int primary key, Buyer text, items list<frozen<item>>);
+CREATE TABLE invoice 
+(id int PRIMARY KEY, buyer text, items list<frozen<item>>);
 
-insert into invoice (id, buyer, items) 
-values (1, 'Joe', [{id: 1, name: 'Book', price: 11.99}, {id: 2, Name: 'Computer', Price: 3333}]);
+INSERT INTO invoice (id, buyer, items) 
+VALUES (1, 'Joe', [{id: 1, name: 'Book', price: 11.99}, {id: 2, name: 'Computer', price: 3333}]);
 
-select * from invoice;
+SELECT * FROM invoice;
 
-update invoice 
-set items = items + [{id: 3, name: 'Cable', price: 1.00}] 
-where id = 1;
+UPDATE invoice 
+SET items = items + [{id: 3, name: 'Cable', price: 1.00}] 
+WHERE id = 1;
 ```
 
 ## Filtering
@@ -82,7 +82,27 @@ SELECT * FROM nobel_laureates WHERE borncountrycode='RU' AND category='physics' 
 
 ## Inserting and Updating
 
-TBD
+```sql
+CREATE TABLE user
+(
+  id int,
+  firstname text,
+  lastname text,
+  PRIMARY KEY (id)
+);
+
+INSERT INTO user (id, firstname, lastname) 
+VALUES ( 1, 'Ada', 'Lovelace');
+
+INSERT INTO user (id, firstname, lastname) 
+VALUES ( 1, 'Charles', 'Babbage');
+
+SELECT * FROM user;
+
+UPDATE user
+SET firstname='Linus', lastname='Torvalds'
+WHERE id=2;
+```
 
 ## Primary key
 
@@ -129,7 +149,27 @@ list User2;
 
 ## Ordering
 
-TBD
+```sql
+USE nobel;
+
+DESCRIBE TABLE nobel_laureates;
+
+SELECT * FROM nobel_laureates WHERE year=2002;
+
+SELECT * FROM nobel_laureates WHERE year=2002 
+ORDER BY laureateid DESC;
+
+SELECT * FROM nobel_laureates WHERE year=2002
+ORDER BY borncountrycode;
+
+SELECT * FROM nobel_laureates WHERE borncountrycode='HU';
+
+SELECT * FROM nobel_laureates WHERE borncountrycode='HU'
+ORDER BY laureateid;
+
+SELECT * FROM nobel_laureates WHERE year in (2002, 1992)
+ORDER BY laureateid;
+```
 
 ## Static fields
 ```sql
