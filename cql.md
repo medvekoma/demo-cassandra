@@ -1,17 +1,92 @@
 # CQL Examples
 
-## Topics to cover
+## Special data types
 
-* Special data types (timeuuid, collections, UDT)
-* Filtering (key by exact match, secondary indexes)
-* Insert vs Update
-* Primary key (partition key, clustering key)
-* Ordering - only for clustering column
-* Static fields
+### Collections
+```sql
+CREATE TABLE Contacts 
+(
+  Id int, 
+  Name text, 
+  Phones map<text, text>, 
+  PRIMARY KEY (Id)
+);
+
+INSERT INTO Contacts 
+  (Id, Name, Phones) 
+VALUES 
+  (1, 'Peter Dontcall', {'Home':'+36 1 1234567','Work':'+36 30 7894561'});
+
+SELECT * FROM contacts;
+
+UPDATE Contacts 
+SET Phones = Phones + {'Other':'+1 205 7897897'} 
+WHERE Id = 1;
+
+select * from contacts;
+```
+```bash
+cassandra-cli
+list Contacts;
+```
+
+### User defined types
+
+```sql
+CREATE TYPE Item 
+(Id int, Name text, Price decimal);
+
+CREATE TABLE Invoice 
+(Id int primary key, Buyer text, items list<frozen<item>>);
+
+insert into invoice (id, buyer, items) 
+values (1, 'Joe', [{id: 1, name: 'Book', price: 11.99}, {id: 2, Name: 'Computer', Price: 3333}]);
+
+select * from invoice;
+
+update invoice 
+set items = items + [{id: 3, name: 'Cable', price: 1.00}] 
+where id = 1;
+```
+
+## Filtering
+
+```sql
+CREATE TABLE nobel_laureates 
+(
+  year int, 
+  category text, 
+  laureateid int, 
+  firstname text, 
+  surname text, 
+  borncountrycode text, 
+  borncity text, 
+  PRIMARY KEY ((year), laureateid)
+);
+
+COPY nobel_laureates (year, category, laureateid, firstname, surname, borncountrycode, borncity) 
+FROM '/demo/nobel-laureates.csv';
+
+SELECT * FROM nobel_laureates LIMIT 10;
+
+SELECT * FROM nobel_laureates WHERE year = 2010;
+
+SELECT * FROM nobel_laureates WHERE borncountrycode = 'HU';
+
+CREATE INDEX nobel_laureates_borncountrycode ON nobel_laureates (borncountrycode);
+
+SELECT * FROM nobel_laureates WHERE borncountrycode='RU' AND category='physics';
+
+SELECT * FROM nobel_laureates WHERE borncountrycode='RU' AND category='physics' ALLOW FILTERING;
+```
+
+## Inserting and Updating
+
+TBD
 
 ## Primary key
 
-### Primary key is partition key
+### Partition key
 ```sql
 CREATE TABLE User1
 (
@@ -29,7 +104,7 @@ select * from user1;
 cassandra-cli
 list User1;
 ```
-### Primary key is partition key + clustering key
+### Clustering key
 
 ```sql
 CREATE TABLE User2 
@@ -52,73 +127,11 @@ cassandra-cli
 list User2;
 ```
 
-### Collections
-```sql
-CREATE TABLE Contacts 
-(
-  Id int, 
-  Name text, 
-  Phones map<text, text>, 
-  PRIMARY KEY (Id)
-);
+## Ordering
 
-INSERT INTO Contacts 
-  (Id, Name, Phones) 
-VALUES 
-  ( 1, 'Peter Dontcall', {'Home':'+36 1 1234567','Work':'+36 30 7894561'});
+TBD
 
-SELECT * FROM contacts;
-
-UPDATE 
-  Contacts 
-SET 
-  Phones = Phones + {'Other':'+1 205 7897897'} 
-WHERE 
-  Id = 1;
-
-select * from contacts;
-```
-```bash
-cassandra-cli
-list Contacts;
-```
-
-## Queries
-```sql
-CREATE KEYSPACE cql1 WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 2};
-USE cql1;
-
-CREATE TABLE nobel_laureates 
-(
-  year int, 
-  category text, 
-  laureateid int, 
-  firstname text, 
-  surname text, 
-  borncountrycode text, 
-  borncity text, 
-  PRIMARY KEY ((year), laureateid)
-);
-
-COPY nobel_laureates (year, category, laureateid, firstname, surname, borncountrycode, borncity) 
-FROM '/demo/nobel-laureates.csv';
-```
-
-### SELECT statements
-```sql
-SELECT * FROM nobel_laureates LIMIT 10;
-
-SELECT * FROM nobel_laureates WHERE year = 2010;
-
-SELECT * FROM nobel_laureates WHERE borncountrycode = 'HU';
-
-CREATE INDEX nobel_laureates_borncountrycode ON nobel_laureates (borncountrycode);
-
-SELECT * FROM nobel_laureates WHERE borncountrycode='RU' AND category='physics';
-
-SELECT * FROM nobel_laureates WHERE borncountrycode='RU' AND category='physics' ALLOW FILTERING;
-```
-### Static fields
+## Static fields
 ```sql
 CREATE TABLE Bill_Static
 (
@@ -159,10 +172,4 @@ Check internal representation
 ```bash
 cassandra-cli
 list Bill_Static;
-```
-### Helpers
-```bash
-curl http://medvekoma.net/reveal/cassandra/NobelLaureatesLimited.csv > NobelLaureatesLimited.csv
-
-nodetool rebuild_index sep1 nobel_laureates nobel_laureates.nobel_laureates_borncountrycode
 ```
