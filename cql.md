@@ -1,5 +1,14 @@
 # CQL Examples
 
+## Topics to cover
+
+* Special data types (timeuuid, collections, UDT)
+* Filtering (key by exact match, secondary indexes)
+* Insert vs Update
+* Primary key (partition key, clustering key)
+* Ordering - only for clustering column
+* Static fields
+
 ## Primary key
 
 ### Primary key is partition key
