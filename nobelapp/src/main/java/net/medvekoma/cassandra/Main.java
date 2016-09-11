@@ -36,11 +36,10 @@ public class Main {
 
     private static void printLaureates(Result<Laureate> laureates, String header) {
 
-        out.printf("-- %s --\n", header);
+        out.printf("--- %s ---\n", header);
 
         for (Laureate laureate : laureates) {
-            out.printf("year: %d\tid: %d\tcountry: %s\tname: %s\n",
-                    laureate.getYear(), laureate.getId(), laureate.getBornCountryCode(), laureate.name());
+            out.print(laureate);
         }
 
         out.printf("---------------------\n");

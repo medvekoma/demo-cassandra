@@ -5,6 +5,8 @@ import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 
+import static java.lang.System.out;
+
 @Table(name = "nobel_laureates")
 public class Laureate {
 
@@ -53,7 +55,9 @@ public class Laureate {
         return surName;
     }
 
-    public String name() {
-        return String.format("%s %s", firstName, surName);
+    public String toString() {
+        return String.format("%4d. %d %s %s %s (%s)\n",
+                getId(), getYear(), getBornCountryCode(), getFirstName(), getSurName(), getCategory());
+
     }
 }
