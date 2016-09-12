@@ -1,5 +1,6 @@
 ### Host
 - added OSX / Linux compatibility
+
 ### VM
 - .sh execute permissions are missing
 - pip install six --upgrade
