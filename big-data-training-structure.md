@@ -1,10 +1,10 @@
-- NoSQL
+# NoSQL
   - What is it?
     - Partitioning (horizontal scalability)
     - Flexible schema
   - Different types
   - Eventually Big Table introduction ? (Covered in HBase)
-- Internal Data Model
+# Internal Data Model
   - Map of maps
   - Wide rows
 - Architecture
@@ -12,7 +12,7 @@
   - Replication
   - Consistency
   - Durability and Performance
-- CQL
+# CQL
   - Data Types (collections, UDF)
   - Filtering
   - Insert and Update
@@ -20,17 +20,17 @@
   - Ordering
   - Static Columns
   - Other limitations
-- Data Modeling
+# Data Modeling
   - Design by Query
   - Denormalization
     - 1 to many relationsips
   - Secondary Indexes
   - Data duplication
   - Modeling techniques
-- Conclusions
+# Conclusions
   - Recommended for
   - Not Recommended when
-- Hadoop Ecosystem
+# Hadoop Ecosystem
   - Not part of Hadoop
   - Cassandra FS ? (CFS is part of DSE)
   - InputFormat, OutputFormat
