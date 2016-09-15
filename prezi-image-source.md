@@ -41,3 +41,36 @@ CREATE TABLE invoice
   items list<frozen<article>>
 );
 ```
+
+## Three
+
+```sql
+CREATE TABLE car_registry_1
+(
+  regnr text,
+  car text,
+  owner text,
+  PRIMARY KEY (regnr)
+);
+
+-- Don't do this in production :)
+CREATE TABLE car_registry_2
+(
+  country text,
+  regnr text,
+  car text,
+  owner text,
+  PRIMARY KEY (country, regnr)
+);
+
+-- Don't do this in production :)
+CREATE TABLE car_registry_3
+(
+  country text,
+  cname text static,
+  regnr text,
+  car text,
+  owner text,
+  PRIMARY KEY (country, regnr)
+);
+```
