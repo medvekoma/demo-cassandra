@@ -64,7 +64,8 @@ CREATE TABLE nobel_laureates
   PRIMARY KEY ((year), laureateid)
 );
 
-COPY nobel_laureates (year, category, laureateid, firstname, surname, borncountrycode, borncity) 
+COPY nobel_laureates 
+(year, category, laureateid, firstname, surname, borncountrycode, borncity) 
 FROM '/demo/nobel-laureates.csv';
 
 SELECT * FROM nobel_laureates LIMIT 10;
@@ -73,7 +74,7 @@ SELECT * FROM nobel_laureates WHERE year = 2010;
 
 SELECT * FROM nobel_laureates WHERE borncountrycode = 'HU';
 
-CREATE INDEX nobel_laureates_borncountrycode ON nobel_laureates (borncountrycode);
+CREATE INDEX ON nobel_laureates (borncountrycode);
 
 SELECT * FROM nobel_laureates WHERE borncountrycode='RU' AND category='physics';
 
