@@ -74,3 +74,29 @@ CREATE TABLE car_registry_3
   PRIMARY KEY (country, regnr)
 );
 ```
+## Upserts
+
+```sql
+CREATE TABLE user
+(
+  id int PRIMARY KEY,
+  firstname text,
+  lastname text,
+);
+
+INSERT INTO user (id, firstname, lastname) 
+VALUES ( 1, 'Ada', 'Lovelace');
+
+-- Q: Key violation?
+INSERT INTO user (id, firstname, lastname) 
+VALUES ( 1, 'Charles', 'Babbage');
+
+-- Nothing to update...
+UPDATE user
+SET firstname='Linus', lastname='Torvalds'
+WHERE id=2;
+
+-- ~ equivalent to...
+INSERT INTO user (id, firstname, lastname)
+VALUES (2, 'Linus', 'Torwalds');
+```
