@@ -195,3 +195,56 @@ INSERT INTO table1 (pk, f1)
 VALUES (v1, v2)
 USING TTL 60;
 ```
+
+## Counter tables
+
+```sql
+CREATE TABLE employee_counter (
+  employeeid bigint,
+  year int,
+  vacation_days counter,
+  badges counter,
+  PRIMARY KEY (employeeid, year)
+);
+
+-- Update counter is the only operation allowed
+UPDATE employee_counter
+SET badges = badges + 1
+WHERE employeeid = 1 AND year = 2016;
+
+-- ERROR: Cannot set, just increment
+UPDATE employee_counter
+SET badges = 17
+WHERE employeeid = 1 AND year = 2016;
+```
+
+## Batches
+
+```sql
+BEGIN BATCH
+  INSERT INTO track_by_artist ...
+  INSERT INTO track_by_album  ...
+APPLY BATCH;
+```
+
+## Lightweight Transactions
+
+```sql
+-- Verify by primary key
+INSERT INTO users (username, name, passwordhash)
+VALUES ('ada', 'Ada Lovelace', '20a46ee0')
+IF NOT EXISTS;
+
+-- Verify by any field
+UPDATE users
+SET passwordhash = '20a5f580'
+WHERE username = 'ada'
+IF passwordhash = '20a46ee0';
+```
+| [applied] |
+|-----------|
+|      True |
+
+| [applied] | username | name         | passwordhash |
+|-----------|----------|--------------|--------------|
+|     False |      ada | Ada Lovelace |     20a46ee0 |
