@@ -248,3 +248,36 @@ IF passwordhash = '20a46ee0';
 | [applied] | username | name         | passwordhash |
 |-----------|----------|--------------|--------------|
 |     False |      ada | Ada Lovelace |     20a46ee0 |
+
+## Materialized View
+
+```sql
+CREATE TABLE nobel_laureates (
+  year int, 
+  laureateid int, 
+  category text, 
+  firstname text, -- other fields are omitted 
+  PRIMARY KEY (year, laureateid)
+);
+
+CREATE MATERIALIZED VIEW laureates_by_category AS 
+  SELECT * FROM nobel_laureates 
+  -- primary key fields must be non-null
+  WHERE category IS NOT NULL AND laureateid IS NOT NULL 
+PRIMARY KEY (category, year, laureateid) 
+WITH CLUSTERING ORDER BY (year DESC, laureateid ASC);
+
+INSERT INTO nobel_laureates 
+(year, laureateid, category, firstname)
+VALUES (2016, 9999, 'Cassandra', 'epam');
+
+SELECT * FROM laureates_by_category
+WHERE category = 'Cassandra';
+```
+
+## JSON Support
+
+```sql
+INSERT INTO contacts JSON 
+'{"id": 2, "name": "epam", "phones": {"Public": "+36 1 3277400"}}';
+```
