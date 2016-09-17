@@ -279,5 +279,13 @@ WHERE category = 'Cassandra';
 
 ```sql
 INSERT INTO contacts JSON 
-'{"id": 2, "name": "epam", "phones": {"Public": "+36 1 3277400"}}';
+'{
+  "id": 2, 
+  "name": "epam", 
+  "phones": 
+  {
+    "Budapest": "+36 1 3277400",
+    "Szeged": "+36 62 550656"
+  }
+}';
 ```
